@@ -1,0 +1,89 @@
+Source: greenplum-db-6
+Maintainer: Greenplum Release Engineering <release@greenplum.org>
+Section: database
+Build-Depends: debhelper (>= 9),
+    bison,
+    cmake,
+    cgroup-tools,
+    flex,
+    gcc-6,
+    g++-6,
+    g++-6-multilib,
+    git,
+    libapr1-dev,
+    libbz2-dev,
+    libcurl4-gnutls-dev,
+    libevent-dev,
+    libkrb5-dev,
+    libldap2-dev,
+    libperl-dev,
+    libreadline6-dev,
+    libssl-dev,
+    libxml2-dev,
+    libyaml-dev,
+    libzstd-dev,
+    libaprutil1-dev,
+    libpam0g-dev,
+    libpam0g,
+    libcgroup1,
+    libyaml-0-2,
+    krb5-multidev,
+    libldap-2.4-2,
+    libssl1.1,
+    ninja-build,
+    python-dev,
+    python-setuptools,
+    zlib1g-dev,
+    libhyperic-sigar-java
+
+Package: greenplum-db-6
+Architecture: amd64
+Depends: bison,
+    curl,
+    cgroup-tools,
+    iputils-ping,
+    krb5-multidev,
+    less,
+    libapr1,
+    libbz2-1.0,
+    libcurl3-gnutls,
+    libevent-2.1-6,
+    libreadline7,
+    libxml2-dev,
+    libxml2,
+    libyaml-0-2,
+    libldap-2.4-2,
+    libzstd1,
+    libcgroup1,
+    libssl1.1,
+    libpam0g,
+    locales,
+    net-tools,
+    openssh-client,
+    openssh-server,
+    openssl,
+    python-lockfile,
+    python-paramiko,
+    python-psutil,
+    python-yaml,
+    python-pip,
+    python-behave,
+    python-epydoc,
+    python-ldap,
+    python-logilab-common,
+    python-mock,
+    python-parse,
+    python-setuptools,
+    rsync,
+    zlib1g,
+    libhyperic-sigar-java
+Description: Pivotal Greenplum Database
+  Greenplum Database is an advanced, fully featured, open source data platform.
+  It provides powerful and rapid analytics on petabyte scale data volumes.
+  Uniquely geared toward big data analytics, Greenplum Database is powered by
+  the world's most advanced cost-based query optimizer delivering high
+  analytical query performance on large data volumes.The Greenplum Database®
+  project is released under the Apache 2 license.  We want to thank all our
+  current community contributors and all who are interested in new
+  contributions.  For the Greenplum Database community, no contribution is too
+  small, we encourage all types of contributions.

@@ -1,0 +1,11 @@
+greenplum-db-6 (6.10.1) bionic; urgency=medium
+
+  * Initial release 6.10.1
+
+ -- Aleksey Kashin <kashinav@builder-ub.ru-central1.internal>  Wed, 16 Sep 2020 13:01:46 +0000
+
+greenplum-db-6 (6.8.1) bionic; urgency=medium
+
+  * Initial release.
+
+ -- Aleksey Kashin <kashinav@builder-ub.ru-central1.internal>  Tue, 15 Sep 2020 13:48:44 +0000
