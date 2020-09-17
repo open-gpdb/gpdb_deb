@@ -38,7 +38,7 @@ Build-Depends: debhelper (>= 9),
 
 Package: greenplum-db-6
 Architecture: amd64
-Depends: bison,
+Depends: apr,
     curl,
     cgroup-tools,
     iputils-ping,
@@ -46,10 +46,11 @@ Depends: bison,
     less,
     libapr1,
     libbz2-1.0,
-    libcurl3-gnutls,
+    libcurl4-gnutls,
+    libcurl3-gnutls
     libevent-2.1-6,
     libreadline7,
-    libxml2-dev,
+    libreadline5,
     libxml2,
     libyaml-0-2,
     libldap-2.4-2,
@@ -73,7 +74,6 @@ Depends: bison,
     python-logilab-common,
     python-mock,
     python-parse,
-    python-setuptools,
     rsync,
     zlib1g
 Description: Pivotal Greenplum Database
