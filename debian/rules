@@ -13,13 +13,14 @@ PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
 
-GCC_VER := $(shell update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6)
-
 ifdef IS_GPDB7
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
 
 ifdef IS_GPDB6
+        # Fix GPDB compilation error while compiling gcc-7
+        GCC_VER := $(shell update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60)
+        GPP_VER := $(shell update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 60)
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
 
