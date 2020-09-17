@@ -8,7 +8,7 @@ GPHOME=/opt/greenplum-db-${GPVER}
 
 if [ "$1" = configure ]; then
 
-  chown -R ${GPADMIN}:{$GPADMIN} ${GPHOME}-${GPVER}
+  chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}
 
   cat << _EOF_ > /etc/ld.so.conf.d/gpdb.conf
 ${GPHOME}/lib/
