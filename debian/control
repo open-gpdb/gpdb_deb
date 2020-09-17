@@ -75,8 +75,7 @@ Depends: bison,
     python-parse,
     python-setuptools,
     rsync,
-    zlib1g,
-    libhyperic-sigar-java
+    zlib1g
 Description: Pivotal Greenplum Database
   Greenplum Database is an advanced, fully featured, open source data platform.
   It provides powerful and rapid analytics on petabyte scale data volumes.
