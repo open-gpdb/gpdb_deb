@@ -20,9 +20,8 @@ endif
 
 ifdef IS_GPDB6
         # Fix GPDB compilation error due to gcc-7
-        CC = /usr/bin/gcc-6
-        CXX = /usr/bin/g++-6
-        export CC CXX
+        export CC := /usr/bin/gcc-6
+        export CXX := /usr/bin/g++-6
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
 
@@ -104,4 +103,6 @@ override_dh_shlibdeps:
 
 clean_dev_local:
 	rm -rf gporca/build
+	rm -rf sigar/build
+	rm -rf xerces-c-3.1.1/build
 	rm -rf ${DEBIAN_DESTINATION}

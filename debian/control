@@ -33,8 +33,7 @@ Build-Depends: debhelper (>= 9),
     ninja-build,
     python-dev,
     python-setuptools,
-    zlib1g-dev,
-    libhyperic-sigar-java
+    zlib1g-dev
 
 Package: greenplum-db-6
 Architecture: amd64
