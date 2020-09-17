@@ -38,16 +38,15 @@ Build-Depends: debhelper (>= 9),
 
 Package: greenplum-db-6
 Architecture: amd64
-Depends: apr,
-    curl,
+Depends: curl,
     cgroup-tools,
     iputils-ping,
     krb5-multidev,
     less,
     libapr1,
     libbz2-1.0,
-    libcurl4-gnutls,
-    libcurl3-gnutls
+    libcurl4,
+    libcurl3-gnutls,
     libevent-2.1-6,
     libreadline7,
     libreadline5,
