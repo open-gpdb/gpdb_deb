@@ -9,6 +9,7 @@ GPDB_HOME_PREFIX := "/opt/greenplum-db"
 GPDB_SRC_DIR := $(shell pwd)
 #GPDB_VERSION := $(shell ./getversion | tr " " ".")
 GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
+VERSION := $(VERSION)
 PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
@@ -37,9 +38,10 @@ PXF_SRC := ${GPDB_SRC_DIR}/pxf
 #export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 #export GOPATH := ${GPDB_SRC_DIR}/go
 #export PATH := $(GOPATH)/bin:$(PATH)
+# debug
 #$(info    GOPATH is $(GOPATH))
 #$(info    PATH is $(PATH))
-$(error    VRS is $(VERSION)) 
+#$(error   VRS is $(VERSION)) 
 
 include /usr/share/dpkg/default.mk
 
@@ -104,8 +106,8 @@ override_dh_auto_test:
 	echo "Skipping auto test"
 
 override_dh_gencontrol:
-	echo "using version ${GPDB_VERSION} for binary"
-	dpkg-gencontrol -v${GPDB_VERSION} -Pdebian/${PACKAGE}
+	echo "using version ${VERSION} for binary"
+	dpkg-gencontrol -v${VERSION} -Pdebian/${PACKAGE}
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
