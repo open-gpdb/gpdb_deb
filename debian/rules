@@ -31,6 +31,15 @@ DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
 ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
+PXF_SRC := ${GPDB_SRC_DIR}/pxf
+
+# needs for pxf
+#export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
+#export GOPATH := ${GPDB_SRC_DIR}/go
+#export PATH := $(GOPATH)/bin:$(PATH)
+#$(info    GOPATH is $(GOPATH))
+#$(info    PATH is $(PATH))
+$(error    VRS is $(VERSION)) 
 
 include /usr/share/dpkg/default.mk
 
@@ -102,7 +111,6 @@ override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
 clean_dev_local:
-	rm -rf gporca/build
 	rm -rf sigar/build
 	rm -rf xerces-c-3.1.1/build
 	rm -rf ${DEBIAN_DESTINATION}
