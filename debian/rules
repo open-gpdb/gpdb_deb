@@ -84,6 +84,9 @@ override_dh_auto_install:
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/yaml
 	rm -rf ${DEBIAN_DESTINATION}/include/xerces
 	rm -rf ${DEBIAN_DESTINATION}/include/sigar
+	# gpbackup/gprestore install
+        mv ${GPDB_SRC_DIR}/gpbackup* ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gpbackup*
+	mv ${GPDB_SRC_DIR}/gprestore ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gprestore
 	# Remove fault injector and other packages
 	#while read file; do\
       #if [ -f "${DEBIAN_DESTINATION}/$${file}" ]; then\
