@@ -35,12 +35,12 @@ XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
 PXF_SRC := ${GPDB_SRC_DIR}/pxf
 
 # needs for pxf
-#export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
-#export GOPATH := ${GPDB_SRC_DIR}/go
-#export PATH := $(GOPATH)/bin:$(PATH)
+export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
+export GOPATH := ${GPDB_SRC_DIR}/go
+export PATH := $(GOPATH)/bin:$(PATH)
 # debug
-#$(info    GOPATH is $(GOPATH))
-#$(info    PATH is $(PATH))
+$(info    GOPATH is $(GOPATH))
+$(info    PATH is $(PATH))
 #$(error   VRS is $(VERSION)) 
 
 include /usr/share/dpkg/default.mk
@@ -87,6 +87,9 @@ override_dh_auto_install:
 	# gpbackup/gprestore install
 	mv ${GPDB_SRC_DIR}/gpbackup* ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gpbackup*
 	mv ${GPDB_SRC_DIR}/gprestore ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gprestore
+	# pxf
+	. ${DEBIAN_DESTINATION}/greenplum_path.sh && cd ${PXF_SRC} && \
+            make && PXF_HOME = ${DEBIAN_DESTINATION}/pxf make install
 	# Remove fault injector and other packages
 	#while read file; do\
       #if [ -f "${DEBIAN_DESTINATION}/$${file}" ]; then\
