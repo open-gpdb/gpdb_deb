@@ -38,11 +38,11 @@ PXF_SRC := ${GPDB_SRC_DIR}/pxf
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 export GOPATH := ${GPDB_SRC_DIR}/go
 export PATH := $(GOPATH)/bin:$(PATH)
-export GRADLE_USER_HOME := ${GPDB_SRC_DIR}
+#export GRADLE_USER_HOME := ${GPDB_SRC_DIR}
 # debug
-$(info    GOPATH is $(GOPATH))
-$(info    PATH is $(PATH))
-$(info    GRADLE is $(GRADLE_USER_HOME))
+#$(info    GOPATH is $(GOPATH))
+#$(info    PATH is $(PATH))
+#$(info    GRADLE is $(GRADLE_USER_HOME))
 #$(error   VRS is $(VERSION)) 
 
 DEP := $(shell go get github.com/golang/dep/cmd/dep)
