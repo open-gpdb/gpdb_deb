@@ -43,6 +43,9 @@ $(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
 #$(error   VRS is $(VERSION)) 
 
+DEP := $(shell go get github.com/golang/dep/cmd/dep)
+GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
+
 include /usr/share/dpkg/default.mk
 
 libsigar:
