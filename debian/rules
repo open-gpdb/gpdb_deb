@@ -77,8 +77,7 @@ override_dh_auto_configure: libsigar xerces311
 override_dh_auto_install:
 	make install
 	# pxf
-	#rm -rf ${PXF_SRC}/server/.gradle
-	sed -i 's/gradlew/gradlew -g gradle-user-home/g' ${PXF_SRC}/server/Makefile
+	#sed -i 's/gradlew/gradlew -g gradle-user-home/g' ${PXF_SRC}/server/Makefile
 	. ${DEBIAN_DESTINATION}/greenplum_path.sh && cd ${PXF_SRC} && \
             make && PXF_HOME = ${DEBIAN_DESTINATION}/pxf make install
 	# the staging directory for creating a debian is NOT the right GPHOME.
