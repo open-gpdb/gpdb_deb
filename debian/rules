@@ -128,10 +128,6 @@ override_dh_gencontrol:
 	echo "using version ${PXF_PKG_VERSION} for binary PXF"
 	dpkg-gencontrol -v${PXF_PKG_VERSION} -Pdebian/${PACKAGE_PXF} -p${PACKAGE_PXF}
 
-override_dh_gencontrol:
-	echo "using version ${VERSION} for binary"
-	dpkg-gencontrol -v${VERSION} -Pdebian/${PACKAGE}
-
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
