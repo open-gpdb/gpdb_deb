@@ -47,7 +47,7 @@ GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
 $(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
 $(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
-$(error   PXF_PKG_VERSION is $(PXF_PKG_VERSION))
+$(info   PXF_PKG_VERSION is $(PXF_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
 
