@@ -44,11 +44,10 @@ DEP := $(shell go get github.com/golang/dep/cmd/dep)
 GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
 
 # debug
-#$(info    GOPATH is $(GOPATH))
-#$(info    PATH is $(PATH))
-#$(error   VRS is $(VERSION)) 
-$(error    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
-$(error    PXF_PKG_VERSION is $(PXF_PKG_VERSION))
+$(info    GOPATH is $(GOPATH))
+$(info    PATH is $(PATH))
+$(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
+$(error   PXF_PKG_VERSION is $(PXF_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
 
