@@ -1,3 +1,3 @@
-debian/build/pxf /opt/greenplum-pxf-_PXFVER_
+debian/build/pxf/* /opt/greenplum-pxf-_PXFVER_
 debian/build/lib/postgresql/pxf.so /opt/greenplum-db-_GPVER_/lib/postgresql
 debian/build/share/postgresql/extension/pxf* /opt/greenplum-db-_GPVER_/share/postgresql/extension
