@@ -4,12 +4,15 @@ Section: database
 Build-Depends: debhelper (>= 9),
     bison,
     cmake,
+    curl,
     cgroup-tools,
     flex,
     gcc-6,
     g++-6,
     g++-6-multilib,
+    golang,
     git,
+    krb5-multidev,
     libapr1-dev,
     libbz2-dev,
     libcurl4-gnutls-dev,
@@ -27,27 +30,28 @@ Build-Depends: debhelper (>= 9),
     libpam0g,
     libcgroup1,
     libyaml-0-2,
-    krb5-multidev,
     libldap-2.4-2,
     libssl1.1,
     ninja-build,
+    openjdk-11-jdk,
+    openjdk-11-jre,
     python-dev,
     python-setuptools,
-    zlib1g-dev,
-    libhyperic-sigar-java
+    unzip,
+    wget,
+    zlib1g-dev
 
 Package: greenplum-db-6
 Architecture: amd64
-Depends: apr,
-    curl,
+Depends: curl,
     cgroup-tools,
     iputils-ping,
     krb5-multidev,
     less,
     libapr1,
     libbz2-1.0,
-    libcurl4-gnutls,
-    libcurl3-gnutls
+    libcurl4,
+    libcurl3-gnutls,
     libevent-2.1-6,
     libreadline7,
     libreadline5,
@@ -75,6 +79,7 @@ Depends: apr,
     python-mock,
     python-parse,
     rsync,
+    wget,
     zlib1g
 Description: Pivotal Greenplum Database
   Greenplum Database is an advanced, fully featured, open source data platform.
@@ -86,3 +91,18 @@ Description: Pivotal Greenplum Database
   current community contributors and all who are interested in new
   contributions.  For the Greenplum Database community, no contribution is too
   small, we encourage all types of contributions.
+
+Package: greenplum-pxf-5
+Architecture: amd64
+Depends: libcurl4,
+    libcurl3-gnutls,
+    openjdk-11-jdk,
+    openjdk-11-jre,
+    greenplum-db-6
+Description: Pivotal Greenplum PXF
+  The Greenplum Platform Extension Framework (PXF) provides parallel, high
+  throughput data access and federated queries across heterogeneous data
+  sources via built-in connectors that map a Greenplum Database external
+  table definition to an external data source. This Greenplum Database
+  extension is based on PXF from Apache HAWQ (incubating).
+

@@ -1,0 +1,7 @@
+debian/build/bin /opt/greenplum-db-_GPVER_
+debian/build/docs /opt/greenplum-db-_GPVER_
+debian/build/include /opt/greenplum-db-_GPVER_
+debian/build/lib* /opt/greenplum-db-_GPVER_
+debian/build/sbin /opt/greenplum-db-_GPVER_
+debian/build/share /opt/greenplum-db-_GPVER_
+debian/build/*.sh /opt/greenplum-db-_GPVER_

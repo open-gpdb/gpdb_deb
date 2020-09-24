@@ -7,9 +7,13 @@ DPKG_EXPORT_BUILDFLAGS = 1
 GPDB_HOME_PREFIX := "/opt/greenplum-db"
 # assumes that CWD is root of gpdb source
 GPDB_SRC_DIR := $(shell pwd)
-#GPDB_VERSION := $(shell ./getversion | tr " " ".")
 GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
-PACKAGE := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
+GPDB_MAJOR_VERSION := $(shell ./getversion | cut -d'.' -f 1)
+GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
+PXF_VERSION := $(shell cat ${GPDB_SRC_DIR}/pxf/version)
+PXF_PKG_VERSION := $(PXF_PKG_VERSION)
+PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2| grep greenplum-db)
+PACKAGE_PXF := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2| grep greenplum-pxf)
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
@@ -20,9 +24,8 @@ endif
 
 ifdef IS_GPDB6
         # Fix GPDB compilation error due to gcc-7
-        CC = /usr/bin/gcc-6
-        CXX = /usr/bin/g++-6
-        export CC CXX
+        export CC := /usr/bin/gcc-6
+        export CXX := /usr/bin/g++-6
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
 
@@ -32,6 +35,20 @@ DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
 ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
+PXF_SRC := ${GPDB_SRC_DIR}/pxf
+
+# needs for pxf
+export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
+export GOPATH := ${GPDB_SRC_DIR}/go
+export PATH := $(GOPATH)/bin:$(PATH)
+DEP := $(shell go get github.com/golang/dep/cmd/dep)
+GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
+
+# debug
+$(info    GOPATH is $(GOPATH))
+$(info    PATH is $(PATH))
+$(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
+$(info   PXF_PKG_VERSION is $(PXF_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
 
@@ -54,7 +71,6 @@ override_dh_auto_configure: libsigar xerces311
         --with-ldap \
 	--enable-gpperfmon \
 	--with-pam \
-	--enable-pxf \
         --with-openssl \
         ${EXTRA_CONFIGURE_FLAGS}
 
@@ -63,9 +79,14 @@ override_dh_auto_configure: libsigar xerces311
 
 override_dh_auto_install:
 	make install
+	# pxf build
+	# fix gradle error
+	sed -i "s#gradlew#gradlew -g ${PXF_SRC}/server/gradle-user-home#g" ${PXF_SRC}/server/Makefile
+	. ${DEBIAN_DESTINATION}/greenplum_path.sh && cd ${PXF_SRC} && \
+            make && PXF_HOME=${DEBIAN_DESTINATION}/pxf make install
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
-	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
+	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
 	# remove bundled python from open-source package
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/Crypto
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/lockfile
@@ -74,6 +95,9 @@ override_dh_auto_install:
 	rm -rf ${DEBIAN_DESTINATION}/lib/python/yaml
 	rm -rf ${DEBIAN_DESTINATION}/include/xerces
 	rm -rf ${DEBIAN_DESTINATION}/include/sigar
+	# gpbackup/gprestore install
+	mv ${GPDB_SRC_DIR}/gpbackup* ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gpbackup*
+	mv ${GPDB_SRC_DIR}/gprestore ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gprestore
 	# Remove fault injector and other packages
 	#while read file; do\
       #if [ -f "${DEBIAN_DESTINATION}/$${file}" ]; then\
@@ -95,13 +119,20 @@ override_dh_auto_clean:
 override_dh_auto_test:
 	echo "Skipping auto test"
 
+override_dh_strip_nondeterminism:
+	echo "Skipping dh_strip_nondeterminism"
+
 override_dh_gencontrol:
-	echo "using version ${GPDB_VERSION} for binary"
-	dpkg-gencontrol -v${GPDB_VERSION} -Pdebian/${PACKAGE}
+	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
+	dpkg-gencontrol -v${GPDB_PKG_VERSION} -Pdebian/${PACKAGE_GPDB} -p${PACKAGE_GPDB}
+	echo "using version ${PXF_PKG_VERSION} for binary PXF"
+	#dpkg-gencontrol -v${PXF_PKG_VERSION} -Pdebian/${PACKAGE_PXF} -p${PACKAGE_PXF}
+	dpkg-gencontrol -v${GPDB_PKG_VERSION} -Pdebian/${PACKAGE_PXF} -p${PACKAGE_PXF}
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
 clean_dev_local:
-	rm -rf gporca/build
+	rm -rf sigar/build
+	rm -rf xerces-c-3.1.1/build
 	rm -rf ${DEBIAN_DESTINATION}
