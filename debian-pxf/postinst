@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+GPADMIN=gpadmin
+PXFVER=5
+PXFHOME=/opt/greenplum-pxf-${PXFVER}
+
+if [ "$1" = configure ]; then
+
+  chown -R ${GPADMIN}:${GPADMIN} ${PXFHOME}
+
+fi
