@@ -10,15 +10,15 @@ GP_PATH_SCRIPT := $(shell find . -name "greenplum_path.sh"|tail -1)
 GP_VERSION := 6.11.1
  
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
-#export GOPATH := ${PXF_SRC_DIR}/cli/go
+export GOPATH := ${PXF_SRC_DIR}/cli/go
 #export GOPATH := ${PXF_SRC_DIR}
 export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-${GP_VERSION}/bin_gpdb
 #export PATH := $(GOPATH)/bin:$(PATH):$(GPHOME)/bin
 
 GO12 := $(shell wget -c https://dl.google.com/go/go1.12.linux-amd64.tar.gz -O - | tar -xz)
 export GOROOT := ${PXF_SRC_DIR}/go
-export GOPATH := ${PXF_SRC_DIR}/go
-export PATH := $(GOPATH)/bin:$(GPHOME)/bin:$(PATH):
+#export GOPATH := ${PXF_SRC_DIR}/go
+export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH):
 
 DEP := $(shell go get github.com/golang/dep/cmd/dep)
 GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
