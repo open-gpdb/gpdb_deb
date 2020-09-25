@@ -42,11 +42,11 @@ getgo:
 override_dh_auto_build: getgp getgo
 	make clean
 	sed -i "s#gradlew#gradlew -g ${PXF_SRC_DIR}/server/gradle-user-home#g" ${PXF_SRC_DIR}/server/Makefile
-	make
+	make || ps axwu | grep -i gradle |grep -v grep| awk '{print $2}' | xargs kill
 
 override_dh_auto_install:
 	ln -s -f ${GPHOME} ${DEBIAN_DESTINATION}/gp
-	PXF_HOME=${DEBIAN_DESTINATION} make install
+	PXF_HOME=${DEBIAN_DESTINATION} make install || ps axwu | grep -i gradle |grep -v grep| awk '{print $2}' | xargs kill
 	ps axwu | grep -i gradle |grep -v grep| awk '{print $2}' | xargs kill
 
 override_dh_auto_test:
