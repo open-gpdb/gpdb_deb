@@ -8,6 +8,7 @@ PXF_SRC_DIR := $(shell pwd)
 DEBIAN_DESTINATION := ${PXF_SRC_DIR}/debian/build
 GP_PATH_SCRIPT := $(shell find . -name "greenplum_path.sh"|tail -1)
 GP_VERSION := 6.11.1
+GO_VERSION := 1.12
  
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-${GP_VERSION}/bin_gpdb
@@ -30,28 +31,21 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 getgp:
-	mkdir -p ${DEBIAN_DESTINATION}
-	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_${GP_VERSION}.orig.tar.gz && \
-          tar -xzf greenplum-db-6_${GP_VERSION}.orig.tar.gz -C ${DEBIAN_DESTINATION} && \
-          rm -rf greenplum-db-6_${GP_VERSION}.orig.tar.gz
+	mkdir -p ${DEBIAN_DESTINATION} && \
+        wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_${GP_VERSION}.orig.tar.gz -O - | tar -xz -C ${DEBIAN_DESTINATION}/ 
 
 getgo:
-	wget -c https://dl.google.com/go/go1.12.linux-amd64.tar.gz -O - | tar -xz
-	which go
+	wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz -O - | tar -xz
 	./go/bin/go get github.com/golang/dep/cmd/dep
 	./go/bin/go get github.com/onsi/ginkgo/ginkgo
 
 override_dh_auto_build: getgp getgo
-	make clean
 	sed -i "s#gradlew#gradlew -g ${PXF_SRC_DIR}/server/gradle-user-home#g" ${PXF_SRC_DIR}/server/Makefile
 	make
 
 override_dh_auto_install:
 	ln -s -f ${GPHOME} ${DEBIAN_DESTINATION}/gp
 	PXF_HOME=${DEBIAN_DESTINATION} make install
-
-override_dh_auto_clean:
-	echo "Skipping clean"
 
 override_dh_auto_test:
 	echo "Skipping auto test"
