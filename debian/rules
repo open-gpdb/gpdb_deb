@@ -10,10 +10,7 @@ GPDB_SRC_DIR := $(shell pwd)
 GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
 GPDB_MAJOR_VERSION := $(shell ./getversion | cut -d'.' -f 1)
 GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
-PXF_VERSION := $(shell cat ${GPDB_SRC_DIR}/pxf/version)
-PXF_PKG_VERSION := $(PXF_PKG_VERSION)
 PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2| grep greenplum-db)
-PACKAGE_PXF := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2| grep greenplum-pxf)
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
@@ -35,19 +32,10 @@ DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
 ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
-PXF_SRC := ${GPDB_SRC_DIR}/pxf
-
-# needs for pxf
-export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
-export GOROOT := ${GPDB_SRC_DIR}/go
-#export GOPATH := ${GPDB_SRC_DIR}/go2
-export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH):
 
 # debug
-$(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
 $(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
-$(info   PXF_PKG_VERSION is $(PXF_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
 
@@ -60,11 +48,6 @@ xerces311:
 	cd ${XERCES_SRC} && \
         mkdir -p build && cd build && ../configure --prefix=${DEBIAN_DESTINATION} && make -j4 && make install && \
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
-
-getgo:
-	wget -c https://dl.google.com/go/go1.12.linux-amd64.tar.gz -O - | tar -xz
-	./go/bin/go get github.com/golang/dep/cmd/dep
-	./go/bin/go get github.com/onsi/ginkgo/ginkgo
 
 override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
@@ -83,11 +66,6 @@ override_dh_auto_configure: libsigar xerces311
 
 override_dh_auto_install: getgo
 	make install
-	# pxf build
-	# fix gradle error
-	sed -i "s#gradlew#gradlew -g ${PXF_SRC}/server/gradle-user-home#g" ${PXF_SRC}/server/Makefile
-	. ${DEBIAN_DESTINATION}/greenplum_path.sh && cd ${PXF_SRC} && make clean && \
-            make && PXF_HOME=${DEBIAN_DESTINATION}/pxf make install
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
 	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
@@ -129,9 +107,6 @@ override_dh_strip_nondeterminism:
 override_dh_gencontrol:
 	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
 	dpkg-gencontrol -v${GPDB_PKG_VERSION} -Pdebian/${PACKAGE_GPDB} -p${PACKAGE_GPDB}
-	echo "using version ${PXF_PKG_VERSION} for binary PXF"
-	#dpkg-gencontrol -v${PXF_PKG_VERSION} -Pdebian/${PACKAGE_PXF} -p${PACKAGE_PXF}
-	dpkg-gencontrol -v${GPDB_PKG_VERSION} -Pdebian/${PACKAGE_PXF} -p${PACKAGE_PXF}
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info

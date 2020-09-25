@@ -34,8 +34,6 @@ Build-Depends: debhelper (>= 9),
     libldap-2.4-2,
     libssl1.1,
     ninja-build,
-    openjdk-11-jdk,
-    openjdk-11-jre,
     python-dev,
     python-setuptools,
     unzip,
@@ -92,18 +90,4 @@ Description: Pivotal Greenplum Database
   current community contributors and all who are interested in new
   contributions.  For the Greenplum Database community, no contribution is too
   small, we encourage all types of contributions.
-
-Package: greenplum-pxf-5
-Architecture: amd64
-Depends: libcurl4,
-    libcurl3-gnutls,
-    openjdk-11-jdk,
-    openjdk-11-jre,
-    greenplum-db-6
-Description: Pivotal Greenplum PXF
-  The Greenplum Platform Extension Framework (PXF) provides parallel, high
-  throughput data access and federated queries across heterogeneous data
-  sources via built-in connectors that map a Greenplum Database external
-  table definition to an external data source. This Greenplum Database
-  extension is based on PXF from Apache HAWQ (incubating).
 
