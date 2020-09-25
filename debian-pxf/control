@@ -2,6 +2,7 @@ Source: greenplum-pxf-5
 Section: database
 Maintainer: <kashinav@localhost>
 Build-Depends: debhelper (>=9),
+    ca-certificates-java,
     cmake,
     curl,
     git,
@@ -13,7 +14,8 @@ Build-Depends: debhelper (>=9),
 
 Package: greenplum-pxf-5
 Architecture: amd64
-Depends: openjdk-11-jdk,
+Depends: ca-certificates-java,
+  openjdk-11-jdk,
   openjdk-11-jre,
   greenplum-db-6,
   curl,
