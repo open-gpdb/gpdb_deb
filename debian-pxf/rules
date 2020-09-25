@@ -46,6 +46,7 @@ override_dh_auto_build: getgp getgo
 override_dh_auto_install:
 	ln -s -f ${GPHOME} ${DEBIAN_DESTINATION}/gp
 	PXF_HOME=${DEBIAN_DESTINATION} make install
+	./server/gradlew --stop
 
 override_dh_auto_test:
 	echo "Skipping auto test"
