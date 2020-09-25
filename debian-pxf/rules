@@ -12,7 +12,7 @@ export GOPATH := ${PXF_SRC_DIR}/go
 export PATH := $(GOPATH)/bin:$(PATH)
 DEP := $(shell go get github.com/golang/dep/cmd/dep)
 GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
-GETGP := $(shell http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz)
+#GETGP := $(shell wget http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz &&)
 
 $(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
@@ -27,8 +27,10 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 getgp:
+	mkdir /opt/greenplum-db-6-6.11.1
 	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz && \
-          tar -xzf greenplum-db-6_6.11.1.orig.tar.gz
+          tar -xzf greenplum-db-6_6.11.1.orig.tar.gz -C /tmp/ \
+          && mv /tmp/greenplum-db-6-6.11.1/bin_gpdb/* /opt/greenplum-db-6-6.11.1/
 
 override_dh_auto_build: getgp
 	sed -i "s#gradlew#gradlew -g ${PXF_SRC_DIR}/server/gradle-user-home#g" ${PXF_SRC_DIR}/server/Makefile
