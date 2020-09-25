@@ -10,7 +10,7 @@ GP_PATH_SCRIPT := $(shell find . -name "greenplum_path.sh"|tail -1)
 GP_VERSION := 6.11.1
  
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
-export GOPATH := ${PXF_SRC_DIR}/go
+export GOPATH := ${PXF_SRC_DIR}/cli/go
 export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-${GP_VERSION}/bin_gpdb
 export PATH := $(GOPATH)/bin:$(PATH):$(GPHOME)/bin
 
