@@ -3,6 +3,7 @@ Section: database
 Maintainer: <kashinav@localhost>
 Build-Depends: debhelper (>=9),
     ca-certificates-java,
+    ca-certificates,
     cmake,
     curl,
     git,
