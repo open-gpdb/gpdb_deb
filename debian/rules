@@ -81,7 +81,7 @@ override_dh_auto_configure: libsigar xerces311
 %:
 	dh $@ --parallel
 
-override_dh_auto_install:
+override_dh_auto_install: getgo
 	make install
 	# pxf build
 	# fix gradle error
