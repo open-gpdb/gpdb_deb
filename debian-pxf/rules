@@ -7,13 +7,15 @@ DPKG_EXPORT_BUILDFLAGS = 1
 PXF_SRC_DIR := $(shell pwd)
 DEBIAN_DESTINATION := ${PXF_SRC_DIR}/debian/build
 GP_PATH_SCRIPT := $(shell find . -name "greenplum_path.sh"|tail -1)
+GP_VERSION := 6.11.1
+ 
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 export GOPATH := ${PXF_SRC_DIR}/go
-export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-6.11.1/bin_gpdb
+export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-${GP_VERSION}/bin_gpdb
 export PATH := $(GOPATH)/bin:$(PATH):$(GPHOME)/bin
+
 DEP := $(shell go get github.com/golang/dep/cmd/dep)
 GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
-#GETGP := $(shell wget http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz &&)
 
 $(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
@@ -29,11 +31,9 @@ override_dh_auto_configure:
 
 getgp:
 	mkdir -p ${DEBIAN_DESTINATION}
-	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz && \
-          tar -xzf greenplum-db-6_6.11.1.orig.tar.gz -C ${DEBIAN_DESTINATION} && \
-          rm -rf greenplum-db-6_6.11.1.orig.tar.gz && \
-          export GPHOME=${DEBIAN_DESTINATION}/greenplum-db-6-6.11.1/bin_gpdb && \
-          export PATH=${PATH}:${GPHOME}/bin
+	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_${GP_VERSION}.orig.tar.gz && \
+          tar -xzf greenplum-db-6_${GP_VERSION}.orig.tar.gz -C ${DEBIAN_DESTINATION} && \
+          rm -rf greenplum-db-6_${GP_VERSION}.orig.tar.gz
 
 override_dh_auto_build: getgp
 	make clean
