@@ -59,6 +59,7 @@ override_dh_auto_configure: libsigar xerces311
 	--enable-gpperfmon \
 	--with-pam \
         --with-openssl \
+        --disable-pxf \
         ${EXTRA_CONFIGURE_FLAGS}
 
 %:
