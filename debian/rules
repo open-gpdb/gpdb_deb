@@ -39,10 +39,9 @@ PXF_SRC := ${GPDB_SRC_DIR}/pxf
 
 # needs for pxf
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
+export GOROOT := ${GPDB_SRC_DIR}/go
 export GOPATH := ${GPDB_SRC_DIR}/pxf/cli/go
-export PATH := $(GOPATH)/bin:$(PATH)
-DEP := $(shell go get github.com/golang/dep/cmd/dep)
-GINKGO := $(shell go get github.com/onsi/ginkgo/ginkgo)
+export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH):
 
 # debug
 $(info    GOPATH is $(GOPATH))
@@ -61,6 +60,11 @@ xerces311:
 	cd ${XERCES_SRC} && \
         mkdir -p build && cd build && ../configure --prefix=${DEBIAN_DESTINATION} && make -j4 && make install && \
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
+
+getgo:
+	wget -c https://dl.google.com/go/go1.12.linux-amd64.tar.gz -O - | tar -xz
+	./go/bin/go get github.com/golang/dep/cmd/dep
+	./go/bin/go get github.com/onsi/ginkgo/ginkgo
 
 override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
