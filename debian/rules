@@ -64,7 +64,7 @@ override_dh_auto_configure: libsigar xerces311
 %:
 	dh $@ --parallel
 
-override_dh_auto_install: getgo
+override_dh_auto_install: 
 	make install
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
@@ -100,9 +100,6 @@ override_dh_auto_clean:
 
 override_dh_auto_test:
 	echo "Skipping auto test"
-
-override_dh_strip_nondeterminism:
-	echo "Skipping dh_strip_nondeterminism"
 
 override_dh_gencontrol:
 	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
