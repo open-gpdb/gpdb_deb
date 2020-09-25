@@ -27,14 +27,16 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 getgp:
-	mkdir /opt/greenplum-db-6-6.11.1
+	mkdir -p ${DEBIAN_DESTINATION}
 	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz && \
-          tar -xzf greenplum-db-6_6.11.1.orig.tar.gz -C /tmp/ \
-          && mv /tmp/greenplum-db-6-6.11.1/bin_gpdb/* /opt/greenplum-db-6-6.11.1/
+          tar -xzf greenplum-db-6_6.11.1.orig.tar.gz -C ${DEBIAN_DESTINATION} && \
+          export GPHOME=${DEBIAN_DESTINATION}/greenplum-db-6_6.11.1/bin_gpdb && \
+          export PATH=${PATH}:${GPHOME}/bin
 
 override_dh_auto_build: getgp
+	make clean
 	sed -i "s#gradlew#gradlew -g ${PXF_SRC_DIR}/server/gradle-user-home#g" ${PXF_SRC_DIR}/server/Makefile
-	. ${GP_PATH_SCRIPT} && make
+	make
 
 override_dh_auto_install:
 	ln -s -f ${GPHOME} ${DEBIAN_DESTINATION}/gp
