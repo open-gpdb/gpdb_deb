@@ -30,7 +30,8 @@ getgp:
 	mkdir -p ${DEBIAN_DESTINATION}
 	wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_6.11.1.orig.tar.gz && \
           tar -xzf greenplum-db-6_6.11.1.orig.tar.gz -C ${DEBIAN_DESTINATION} && \
-          export GPHOME=${DEBIAN_DESTINATION}/greenplum-db-6_6.11.1/bin_gpdb && \
+          rm -rf greenplum-db-6_6.11.1.orig.tar.gz && \
+          export GPHOME=${DEBIAN_DESTINATION}/greenplum-db-6-6.11.1/bin_gpdb && \
           export PATH=${PATH}:${GPHOME}/bin
 
 override_dh_auto_build: getgp
