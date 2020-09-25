@@ -40,7 +40,7 @@ PXF_SRC := ${GPDB_SRC_DIR}/pxf
 # needs for pxf
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
 export GOROOT := ${GPDB_SRC_DIR}/go
-export GOPATH := ${GPDB_SRC_DIR}/pxf/cli/go
+export GOPATH := ${GPDB_SRC_DIR}/go2
 export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH):
 
 # debug
