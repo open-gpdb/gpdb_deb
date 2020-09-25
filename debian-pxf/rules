@@ -40,6 +40,7 @@ getgo:
 	./go/bin/go get github.com/onsi/ginkgo/ginkgo
 
 override_dh_auto_build: getgp getgo
+	make clean
 	sed -i "s#gradlew#gradlew -g ${PXF_SRC_DIR}/server/gradle-user-home#g" ${PXF_SRC_DIR}/server/Makefile
 	make
 
@@ -50,6 +51,9 @@ override_dh_auto_install:
 
 override_dh_auto_test:
 	echo "Skipping auto test"
+
+override_dh_auto_clean:
+	echo "Skipping auto clean"
 
 override_dh_strip_nondeterminism:
 	echo "Skipping dh_strip_nondeterminism"
