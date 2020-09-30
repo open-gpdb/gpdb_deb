@@ -10,7 +10,7 @@ GPDB_SRC_DIR := $(shell pwd)
 GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
 GPDB_MAJOR_VERSION := $(shell ./getversion | cut -d'.' -f 1)
 GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
-PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2| grep greenplum-db)
+PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
@@ -33,11 +33,14 @@ ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
 
+export QUILT_PATCHES := ${GPDB_SRC_DIR}/debian/patches
+
 # debug
 $(info    PATH is $(PATH))
 $(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
+include /usr/share/quilt/quilt.make
 
 libsigar:
 	mkdir -p ${DEBIAN_DESTINATION}
@@ -49,7 +52,7 @@ xerces311:
         mkdir -p build && cd build && ../configure --prefix=${DEBIAN_DESTINATION} && make -j4 && make install && \
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
 
-override_dh_auto_configure: libsigar xerces311
+override_dh_auto_configure: patch libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
 		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
@@ -96,7 +99,7 @@ override_dh_auto_install:
 # we can either add a make dependency here, which will cause and orca/configure to happen multiple times,
 # or, since we assume that this build is happening in concourse on a brand new container,
 # we can  make this step into a no-op: the container is clean to begin with.
-override_dh_auto_clean:
+override_dh_auto_clean: unpatch
 	echo "Skipping clean"
 
 override_dh_auto_test:
@@ -109,7 +112,7 @@ override_dh_gencontrol:
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
-clean_dev_local:
+clean_dev_local: unpatch
 	rm -rf sigar/build
 	rm -rf xerces-c-3.1.1/build
 	rm -rf ${DEBIAN_DESTINATION}
