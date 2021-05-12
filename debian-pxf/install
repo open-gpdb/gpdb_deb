@@ -6,3 +6,4 @@ debian/build/templates /opt/greenplum-pxf-5
 debian/build/version /opt/greenplum-pxf-5
 debian/build/gp/lib/postgresql/pxf.so /opt/greenplum-db-6/lib/postgresql
 debian/build/gp/share/postgresql/extension/pxf* /opt/greenplum-db-6/share/postgresql/extension
+debian/_jdbc_drivers/*.jar /opt/greenplum-pxf-5/lib/shared
