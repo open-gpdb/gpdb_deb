@@ -63,6 +63,7 @@ override_dh_auto_configure: patch libsigar xerces311
 	--with-pam \
         --with-openssl \
         --disable-pxf \
+        --enable-ic-proxy \
         ${EXTRA_CONFIGURE_FLAGS}
 
 %:

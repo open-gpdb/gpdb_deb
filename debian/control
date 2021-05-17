@@ -39,7 +39,8 @@ Build-Depends: debhelper (>= 9),
     quilt,
     unzip,
     wget,
-    zlib1g-dev
+    zlib1g-dev,
+    libuv1-dev
 
 Package: greenplum-db-6
 Architecture: amd64
@@ -79,7 +80,8 @@ Depends: curl,
     python-parse,
     rsync,
     wget,
-    zlib1g
+    zlib1g,
+    libuv1
 Description: Greenplum Database OSS
   Greenplum Database is an advanced, fully featured, open source data platform.
   It provides powerful and rapid analytics on petabyte scale data volumes.
