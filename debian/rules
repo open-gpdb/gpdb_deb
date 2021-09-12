@@ -65,6 +65,7 @@ override_dh_auto_configure: patch libsigar xerces311
         --disable-pxf \
         --enable-ic-proxy \
         --enable-debug \
+        --with-system-tzdata=/usr/share/zoneinfo \
         ${EXTRA_CONFIGURE_FLAGS}
 
 %:
