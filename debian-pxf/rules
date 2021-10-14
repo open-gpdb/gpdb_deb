@@ -37,7 +37,7 @@ getgp:
 getgo:
 	wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz -O - | tar -xz
 	./go/bin/go get github.com/golang/dep/cmd/dep
-	./go/bin/go get github.com/onsi/ginkgo/ginkgo
+	GO111MODULE=on ./go/bin/go get github.com/onsi/ginkgo/ginkgo@v1.16.4
 
 override_dh_auto_build: getgp getgo
 	make clean
