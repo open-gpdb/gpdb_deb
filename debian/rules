@@ -33,14 +33,11 @@ ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
 
-export QUILT_PATCHES := ${GPDB_SRC_DIR}/debian/patches
-
 # debug
 $(info    PATH is $(PATH))
 $(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
 
 include /usr/share/dpkg/default.mk
-include /usr/share/quilt/quilt.make
 
 libsigar:
 	mkdir -p ${DEBIAN_DESTINATION}
@@ -52,7 +49,10 @@ xerces311:
         mkdir -p build && cd build && ../configure --prefix=${DEBIAN_DESTINATION} && make -j4 && make install && \
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
 
-override_dh_auto_configure: patch libsigar xerces311
+diskquota:
+	cd diskquota && make && make install
+
+override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
 		--with-extra-version="-oss" \
         --with-libs=${DEBIAN_DESTINATION}/lib \
@@ -71,7 +71,7 @@ override_dh_auto_configure: patch libsigar xerces311
 %:
 	dh $@ --parallel
 
-override_dh_auto_install: 
+override_dh_auto_install: diskquota
 	make install
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
@@ -102,7 +102,7 @@ override_dh_auto_install:
 # we can either add a make dependency here, which will cause and orca/configure to happen multiple times,
 # or, since we assume that this build is happening in concourse on a brand new container,
 # we can  make this step into a no-op: the container is clean to begin with.
-override_dh_auto_clean: unpatch
+override_dh_auto_clean:
 	echo "Skipping clean"
 
 override_dh_auto_test:
@@ -115,7 +115,7 @@ override_dh_gencontrol:
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
-clean_dev_local: unpatch
+clean_dev_local: 
 	rm -rf sigar/build
 	rm -rf xerces-c-3.1.1/build
 	rm -rf ${DEBIAN_DESTINATION}
