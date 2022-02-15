@@ -15,6 +15,8 @@ PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
 
+.PHONY: diskquota gpinstall
+
 ifdef IS_GPDB7
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
@@ -51,7 +53,7 @@ xerces311:
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
 
 diskquota:
-	cd ${DISKQUOTA_SRC} && make && make install
+	cd ${DISKQUOTA_SRC} && PATH="${DEBIAN_DESTINATION}/bin:${PATH}" make && make install
 
 override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
@@ -72,10 +74,12 @@ override_dh_auto_configure: libsigar xerces311
 %:
 	dh $@ --parallel
 
-override_dh_auto_install: diskquota
-	# I dont know why but diskquota recipe does not anything :( Try to add right here..
-	cd ${DISKQUOTA_SRC} && PATH="${GPDB_SRC_DIR}/src/bin/pg_config:${PATH}" make && make install
+gpinstall:
+	# GP INSTALL
+	pwd
 	make install
+
+override_dh_auto_install: gpinstall diskquota
 	# the staging directory for creating a debian is NOT the right GPHOME.
 	# change GPHOME to point to the post-install target install directory.
 	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
