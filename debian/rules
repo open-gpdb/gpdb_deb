@@ -53,7 +53,7 @@ xerces311:
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
 
 diskquota:
-	cd ${DISKQUOTA_SRC} && PATH="${DEBIAN_DESTINATION}/bin:${PATH}" make && make install
+	cd ${DISKQUOTA_SRC} && export PATH="${DEBIAN_DESTINATION}/bin:${PATH}" && make && make install
 
 override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
@@ -75,8 +75,6 @@ override_dh_auto_configure: libsigar xerces311
 	dh $@ --parallel
 
 gpinstall:
-	# GP INSTALL
-	pwd
 	make install
 
 override_dh_auto_install: gpinstall diskquota
