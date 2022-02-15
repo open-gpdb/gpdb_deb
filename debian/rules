@@ -35,6 +35,7 @@ ORCA_SRC := ${GPDB_SRC_DIR}/gporca
 SIGAR_SRC := ${GPDB_SRC_DIR}/sigar
 XERCES_SRC := ${GPDB_SRC_DIR}/xerces-c-3.1.1
 DISKQUOTA_SRC := ${GPDB_SRC_DIR}/diskquota
+PATH := ${DEBIAN_DESTINATION}/bin:${PATH}
 
 # debug
 $(info    PATH is $(PATH))
@@ -53,7 +54,7 @@ xerces311:
         rm -rf ${DEBIAN_DESTINATION}/bin/*	
 
 diskquota:
-	cd ${DISKQUOTA_SRC} && export PATH="${DEBIAN_DESTINATION}/bin:${PATH}" && make && make install
+	cd ${DISKQUOTA_SRC} && make && make install
 
 override_dh_auto_configure: libsigar xerces311
 	./configure --with-perl --with-python --with-libxml --enable-mapreduce --with-gssapi \
