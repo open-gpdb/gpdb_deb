@@ -48,7 +48,7 @@ getmaven:
         && rm -f apache-maven.tar.gz \
         && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
-override_dh_auto_build: getgp getgo getmaven
+override_dh_auto_build: getgo getmaven
 	make 
 
 override_dh_auto_install:
