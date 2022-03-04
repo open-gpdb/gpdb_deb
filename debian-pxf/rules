@@ -30,7 +30,8 @@ override_dh_auto_configure:
 
 override_dh_auto_build: 
 	pwd
-	which go
+	ls -la /root/
+	ls -la /root/pxf/
 	make 
 
 override_dh_auto_install:
