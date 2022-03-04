@@ -3,9 +3,11 @@
 set -e
 
 GPADMIN=gpadmin
-PXFVER=5
+PXFVER=6
 PXFHOME=/opt/greenplum-pxf-${PXFVER}
 GPHOME=/opt/greenplum-db-6
 
 chown -R ${GPADMIN}:${GPADMIN} ${PXFHOME}
 chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}
+
+echo 'trusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
