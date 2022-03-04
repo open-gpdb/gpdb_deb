@@ -7,18 +7,13 @@ DPKG_EXPORT_BUILDFLAGS = 1
 PXF_SRC_DIR := $(shell pwd)
 DEBIAN_DESTINATION := ${PXF_SRC_DIR}/debian/build
 GP_PATH_SCRIPT := $(shell find . -name "greenplum_path.sh"|tail -1)
-GP_VERSION := 6.19.3
-GO_VERSION := 1.17.6
-GINKGO_VERSION := 1.16.5
-MAVEN_VERSION := 3.6.3
-MAVEN_BASE_URL := https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 export JAVA_HOME := /usr/lib/jvm/java-1.11.0-openjdk-amd64
-export GPHOME := ${DEBIAN_DESTINATION}/greenplum-db-6-${GP_VERSION}/bin_gpdb
+export GPHOME := ${DEBIAN_DESTINATION}/gp
 
 export GOROOT := ${PXF_SRC_DIR}/go
 export GOPATH := ${PXF_SRC_DIR}/cli/go
-export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH):
+export PATH := $(GOPATH)/bin:$(GOROOT)/bin:$(GPHOME)/bin:$(PATH)
 
 $(info    GOPATH is $(GOPATH))
 $(info    PATH is $(PATH))
@@ -32,21 +27,6 @@ include /usr/share/dpkg/default.mk
 
 override_dh_auto_configure:
 	echo "Skipping autoconfigure"
-
-getgp:
-	mkdir -p ${DEBIAN_DESTINATION} && \
-        wget -c http://ppa.launchpad.net/greenplum/db/ubuntu/pool/main/g/greenplum-db-6/greenplum-db-6_${GP_VERSION}.orig.tar.gz -O - | tar -xz -C ${DEBIAN_DESTINATION}/ 
-
-getgo:
-	wget -c https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz -O - | tar -xz
-	./go/bin/go install github.com/onsi/ginkgo/ginkgo@v${GINKGO_VERSION}
-
-getmaven:
-	mkdir -p /usr/share/maven /usr/share/maven/ref \
-        && curl -fsSL -o apache-maven.tar.gz ${MAVEN_BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
-        && tar -xzf apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-        && rm -f apache-maven.tar.gz \
-        && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 override_dh_auto_build: 
 	make 
