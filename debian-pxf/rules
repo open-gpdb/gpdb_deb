@@ -29,9 +29,10 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 override_dh_auto_build: 
-	pwd
 	ls -la /root/
 	ls -la /root/pxf/
+	ls -la /root/pxf/cli/
+	ls -la /root/pxf/debian/build/
 	make 
 
 override_dh_auto_install:
