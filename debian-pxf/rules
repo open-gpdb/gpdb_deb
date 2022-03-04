@@ -29,6 +29,8 @@ override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
 override_dh_auto_build: 
+	pwd
+	which go
 	make 
 
 override_dh_auto_install:
