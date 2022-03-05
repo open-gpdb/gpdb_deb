@@ -10,4 +10,4 @@ GPHOME=/opt/greenplum-db-6
 chown -R ${GPADMIN}:${GPADMIN} ${PXFHOME}
 chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}
 
-echo 'trusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
+echo -en '\ntrusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
