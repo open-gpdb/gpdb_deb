@@ -27,6 +27,12 @@ include /usr/share/dpkg/default.mk
 override_dh_auto_configure:
 	echo "Skipping autoconfigure"
 
+override_dh_auto_build:
+	make
+
+override_dh_auto_install:
+	make install
+
 override_dh_auto_test:
 	echo "Skipping auto test"
 
