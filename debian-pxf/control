@@ -52,6 +52,8 @@ Depends: ca-certificates-java,
   curl,
   libcurl3-gnutls,
   libcurl4
+Replaces: greenplum-pxf-5
+Breaks: greenplum-pxf-5
 Description: Greenplum PXF 6 OSS
   The Greenplum Platform Extension Framework (PXF) provides parallel, high
   throughput data access and federated queries across heterogeneous data
