@@ -27,6 +27,7 @@ RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo 
   libssl-dev libxml2-dev libyaml-dev libzstd-dev libaprutil1-dev \
   libpam0g-dev libpam0g libcgroup1 libyaml-0-2 libldap-2.4-2 libssl1.1 \
   ninja-build python-dev python-setuptools quilt unzip wget zlib1g-dev libuv1-dev \
+libgpgme-dev libgpgme11 \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && git clone https://github.com/boundary/sigar.git -b master \
 && wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz \
