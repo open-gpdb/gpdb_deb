@@ -22,6 +22,7 @@ RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo 
   openssl libssl-dev debhelper debootstrap devscripts \
   make equivs bison ca-certificates-java ca-certificates \
   cmake curl cgroup-tools flex gcc-6 g++-6 g++-6-multilib \
+  gcc-8 g++-8 g++-8-multilib \ 
   git krb5-multidev libapr1-dev libbz2-dev libcurl4-gnutls-dev \
   libevent-dev libkrb5-dev libldap2-dev libperl-dev libreadline6-dev \
   libssl-dev libxml2-dev libyaml-dev libzstd-dev libaprutil1-dev \
