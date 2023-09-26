@@ -23,8 +23,8 @@ endif
 
 ifdef IS_GPDB6
         # Fix GPDB compilation error due to gcc-7
-        export CC := /usr/bin/gcc-6
-        export CXX := /usr/bin/g++-6
+        export CC := /usr/bin/gcc-11
+        export CXX := /usr/bin/g++-11
         EXTRA_CONFIGURE_FLAGS := --with-zstd
 endif
 
@@ -59,7 +59,6 @@ override_dh_auto_configure: libsigar xerces311
         --with-includes=${DEBIAN_DESTINATION}/include \
         --prefix=${DEBIAN_DESTINATION} \
         --with-ldap \
-	--enable-gpperfmon \
 	--with-pam \
         --with-openssl \
         --disable-pxf \
