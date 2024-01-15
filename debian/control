@@ -1,4 +1,4 @@
-Source: greenplum-db-6
+Source: greenplum-db-7
 Maintainer: Greenplum Release Engineering <release@greenplum.org>
 Section: database
 Build-Depends: debhelper (>= 9),
@@ -37,14 +37,14 @@ Build-Depends: debhelper (>= 9),
     python-setuptools,
     python2.7,
     python2.7-dev,
-    quilt,
     unzip,
     wget,
     zlib1g-dev,
     libuv1-dev,
-    libmdblocales-dev (>= 25~)
+    libmdblocales-dev (>= 25~),
+    libxerces-c-dev
 
-Package: greenplum-db-6
+Package: greenplum-db-7
 Architecture: amd64
 Depends: curl,
     cgroup-tools,
@@ -88,7 +88,8 @@ Depends: curl,
     zlib1g,
     libuv1,
     libmdblocales1 (>= 25~),
-    mdb-locales (>= 25~)
+    mdb-locales (>= 25~),
+    libxerces-c3.2
 Description: Greenplum Database OSS
   Greenplum Database is an advanced, fully featured, open source data platform.
   It provides powerful and rapid analytics on petabyte scale data volumes.

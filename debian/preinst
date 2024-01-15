@@ -3,7 +3,7 @@
 set -e
 
 GPADMIN=gpadmin
-GPVER=6
+GPVER=7
 GPHOME=/opt/greenplum-db-${GPVER}
 
 case $1 in

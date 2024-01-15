@@ -1,4 +1,4 @@
-greenplum-db-6 (6.25.2) jammy; urgency=medium
+greenplum-db-7 (7.0.0) jammy; urgency=medium
 
   * Initial release.
 
