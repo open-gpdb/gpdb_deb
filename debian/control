@@ -41,8 +41,9 @@ Build-Depends: debhelper (>= 9),
     wget,
     zlib1g-dev,
     libuv1-dev,
-    libmdblocales-dev (>= 25~),
-    libxerces-c-dev
+    libxerces-c-dev,
+    libsystemd-dev,
+    pkg-config
 
 Package: greenplum-db-7
 Architecture: amd64

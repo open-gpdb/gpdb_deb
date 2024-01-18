@@ -23,14 +23,13 @@ RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo 
   make equivs bison ca-certificates-java ca-certificates \
   cmake curl cgroup-tools flex gcc-11 g++-11 g++-11-multilib \
   git krb5-multidev libapr1-dev libbz2-dev libcurl4-gnutls-dev \
-  libpstreams-dev \
+  libpstreams-dev libxerces-c-dev libsystemd-dev \
   libevent-dev libkrb5-dev libldap2-dev libperl-dev libreadline-dev \
   libssl-dev libxml2-dev libyaml-dev libzstd-dev libaprutil1-dev \
   libpam0g-dev libpam0g libcgroup1 libyaml-0-2 libldap-2.5-0 libssl3 \
   ninja-build python-setuptools quilt unzip wget zlib1g-dev libuv1-dev \
-  libgpgme-dev libgpgme11 python2.7 python2.7-dev \
+  libgpgme-dev libgpgme11 python2.7 python2.7-dev pkg-config python3.10 python3.10-dev \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
-&& wget -c https://github.com/greenplum-db/gpbackup/releases/download/1.30.2/gpbackup_binaries_ubuntu.tar.gz -O - | tar -xz
 && mv greenplum-build/debian ./ 
 
 RUN ls -al .

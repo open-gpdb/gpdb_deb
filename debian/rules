@@ -3,74 +3,40 @@
 # see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
 DH_VERBOSE = 1
 DPKG_EXPORT_BUILDFLAGS = 1
-
-GPDB_HOME_PREFIX := "/opt/greenplum-db"
-# assumes that CWD is root of gpdb source
-GPDB_SRC_DIR := $(shell pwd)
-GPDB_VERSION := $(shell ./getversion | cut -d' ' -f 1)
-GPDB_MAJOR_VERSION := $(shell ./getversion | cut -d'.' -f 1)
 GPDB_PKG_VERSION := $(GPDB_PKG_VERSION)
 PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 2)
 
-.PHONY: gpinstall
-
-export CC := /usr/bin/gcc-11
-export CXX := /usr/bin/g++-11
-
-# This destination should NOT be debian/tmp, where certain packaging info stored and erased via dh_prep
-# Also, this directory is duplicated in the "debian/install" file
-DEBIAN_DESTINATION := ${GPDB_SRC_DIR}/debian/build
-PATH := ${DEBIAN_DESTINATION}/bin:${PATH}
-
-# debug
-$(info    PATH is $(PATH))
-$(info    GPDB_PKG_VERSION is $(GPDB_PKG_VERSION))
-
 include /usr/share/dpkg/default.mk
-
-override_dh_auto_configure: 
-	./configure --with-perl --with-python --with-libxml --with-gssapi \
-	--with-extra-version="-oss" \
-        --with-libs=${DEBIAN_DESTINATION}/lib \
-        --with-includes=${DEBIAN_DESTINATION}/include \
-        --prefix=${DEBIAN_DESTINATION} \
-        --with-ldap \
-	--with-pam \
-        --with-openssl \
-        --enable-ic-proxy \
-        --enable-debug \
-        --with-system-tzdata=/usr/share/zoneinfo \
-        --enable-orafce \
-	--with-zstd
 
 %:
 	dh $@ --parallel
 
-gpinstall:
-	make install
+override_dh_auto_configure: 
+	./configure \
+          --with-perl \
+          --with-python \
+          --with-libxml \
+          --with-gssapi \
+          --prefix=/opt/greenplum-db-7 \
+          --with-ldap \
+          --with-pam \
+          --with-openssl \
+          --enable-ic-proxy \
+          --enable-debug \
+          --with-system-tzdata=/usr/share/zoneinfo \
+          --enable-orafce \
+          --enable-gpcloud \
+          --with-zstd \
+          --with-systemd 
 
-override_dh_auto_install: gpinstall 
-	sed -i "s#GPHOME=.*#GPHOME=${GPDB_HOME_PREFIX}-${GPDB_MAJOR_VERSION}#g" ${DEBIAN_DESTINATION}/greenplum_path.sh
-	mv ${GPDB_SRC_DIR}/gpbackup* ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gpbackup*
-	mv ${GPDB_SRC_DIR}/gprestore ${DEBIAN_DESTINATION}/bin/ && chmod +x ${DEBIAN_DESTINATION}/bin/gprestore
-
-
-# since we need orca to build before configuring, and configuring happens before dh_auto_clean,
-# we can either add a make dependency here, which will cause and orca/configure to happen multiple times,
-# or, since we assume that this build is happening in concourse on a brand new container,
-# we can  make this step into a no-op: the container is clean to begin with.
-override_dh_auto_clean:
-	echo "Skipping clean"
-
-override_dh_auto_test:
-	echo "Skipping auto test"
-
-override_dh_gencontrol:
-	echo "using version ${GPDB_PKG_VERSION} for binary GPDB"
-	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
+override_dh_auto_build-arch: 
+	MAKELEVEL=0 $(MAKE) -j8
 
 override_dh_shlibdeps:
-	LD_LIBRARY_PATH=${DEBIAN_DESTINATION}/lib dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
-clean_dev_local: 
-	rm -rf ${DEBIAN_DESTINATION}
+override_dh_auto_test:
+
+override_dh_auto_clean:
+
+override_dh_gencontrol:
+	dh_gencontrol -- -v${GPDB_PKG_VERSION} -p${PACKAGE_GPDB}
