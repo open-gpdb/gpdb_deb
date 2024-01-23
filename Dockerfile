@@ -38,8 +38,8 @@ RUN ls -al gpdb/*
 
 RUN ln -s /usr/bin/python2.7 /usr/bin/python
 
-ENV DEB_CFLAGS_APPEND=-fno-omit-frame-pointer
-ENV DEB_CPPFLAGS_APPEND=-fno-omit-frame-pointer
-ENV DEB_CXXFLAGS_APPEND=-fno-omit-frame-pointer
+ENV DEB_CFLAGS_APPEND='-fno-omit-frame-pointer -fno-lto -fno-fat-lto-objects -Wall'
+ENV DEB_CPPFLAGS_APPEND='-fno-omit-frame-pointer -fno-lto -fno-fat-lto-objects -Wall'
+ENV DEB_CXXFLAGS_APPEND='-fno-omit-frame-pointer -fno-lto -fno-fat-lto-objects -Wall'
 
 ENTRYPOINT ["./make_deb.sh"]
