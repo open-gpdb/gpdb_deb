@@ -1,0 +1,78 @@
+diff --git a/fdw/libchurl.c b/fdw/libchurl.c
+index 6b2fa93a..db4a9bae 100644
+--- a/fdw/libchurl.c
++++ b/fdw/libchurl.c
+@@ -480,7 +480,6 @@ churl_read_check_connectivity(CHURL_HANDLE handle)
+ 	Assert(!context->upload);
+
+ 	fill_internal_buffer(context, 1);
+-	check_response(context);
+ }
+
+ /*
+@@ -633,6 +632,8 @@ multi_perform(churl_context *context)
+ 	if (curl_error != CURLM_OK)
+ 		elog(ERROR, "internal error: curl_multi_perform failed (%d - %s)",
+ 			 curl_error, curl_easy_strerror(curl_error));
++
++	check_response(context);
+ }
+
+ static bool
+@@ -660,8 +661,6 @@ flush_internal_buffer(churl_context *context)
+ 		multi_perform(context);
+ 	}
+
+-	check_response(context);
+-
+ 	if ((context->curl_still_running == 0) &&
+ 		((context_buffer->top - context_buffer->bot) > 0))
+ 		elog(ERROR, "failed sending to remote component %s", get_dest_address(context->curl_handle));
+@@ -717,8 +716,6 @@ finish_upload(churl_context *context)
+ 	 */
+ 	while (context->curl_still_running != 0)
+ 		multi_perform(context);
+-
+-	check_response(context);
+ }
+
+ static void
+diff --git a/external-table/src/libchurl.c b/external-table/src/libchurl.c
+index 40e03480..e6167814 100644
+--- a/external-table/src/libchurl.c
++++ b/external-table/src/libchurl.c
+@@ -473,7 +473,6 @@ churl_read_check_connectivity(CHURL_HANDLE handle)
+ 	Assert(!context->upload);
+
+ 	fill_internal_buffer(context, 1);
+-	check_response(context);
+ }
+
+ /*
+@@ -626,6 +625,8 @@ multi_perform(churl_context *context)
+ 	if (curl_error != CURLM_OK)
+ 		elog(ERROR, "internal error: curl_multi_perform failed (%d - %s)",
+ 			 curl_error, curl_easy_strerror(curl_error));
++
++	check_response(context);
+ }
+
+ static bool
+@@ -653,8 +654,6 @@ flush_internal_buffer(churl_context *context)
+ 		multi_perform(context);
+ 	}
+
+-	check_response(context);
+-
+ 	if ((context->curl_still_running == 0) &&
+ 		((context_buffer->top - context_buffer->bot) > 0))
+ 		elog(ERROR, "failed sending to remote component %s", get_dest_address(context->curl_handle));
+@@ -709,8 +708,6 @@ finish_upload(churl_context *context)
+ 	 */
+ 	while (context->curl_still_running != 0)
+ 		multi_perform(context);
+-
+-	check_response(context);
+ }
+
+ static void
