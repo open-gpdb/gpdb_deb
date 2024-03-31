@@ -27,7 +27,8 @@ override_dh_auto_configure:
           --enable-orafce \
           --enable-gpcloud \
           --with-zstd \
-          --with-systemd 
+          --with-systemd \
+          --enable-yezzey
 
 override_dh_auto_build-arch: 
 	MAKELEVEL=0 $(MAKE) -j8
