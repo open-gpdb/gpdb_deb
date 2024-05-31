@@ -33,9 +33,6 @@ libgpgme-dev libgpgme11 \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && git clone https://github.com/boundary/sigar.git -b master \
 && wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz \
-&& wget -c https://github.com/greenplum-db/gpbackup/releases/download/1.23.0/gpbackup \
-&& wget -c https://github.com/greenplum-db/gpbackup/releases/download/1.23.0/gpbackup_helper \
-&& wget -c https://github.com/greenplum-db/gpbackup/releases/download/1.23.0/gprestore \
 && mv greenplum-build/debian ./ && mv greenplum-yandex-patches/gp_patches/6 ./debian/patches
 
 RUN ls -al .
