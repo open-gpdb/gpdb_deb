@@ -16,7 +16,7 @@ override_dh_auto_configure:
           --with-python \
           --with-libxml \
           --with-gssapi \
-          --prefix=/opt/cloudberry-db \
+          --prefix=/opt/greenplum-db-cb \
           --with-ldap \
           --with-pam \
           --with-openssl \
@@ -26,7 +26,8 @@ override_dh_auto_configure:
           --enable-orafce \
           --enable-gpcloud \
           --with-zstd \
-          --with-systemd
+          --with-systemd \
+          --with-pythonsrc-ext
 
 override_dh_auto_build-arch: 
 	MAKELEVEL=0 $(MAKE) -j8

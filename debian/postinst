@@ -3,7 +3,7 @@
 set -e
 
 GPADMIN=gpadmin
-GPHOME=/opt/cloudberry-db
+GPHOME=/opt/greenplum-db-cb
 
 if [ "$1" = configure ]; then
 

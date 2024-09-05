@@ -1,4 +1,4 @@
-cloudbery-db-1 (1.0.0) jammy; urgency=medium
+greenplum-db-cb (1.0.0) jammy; urgency=medium
 
   * Initial release.
 

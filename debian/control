@@ -1,4 +1,4 @@
-Source: cloudberry-db-1
+Source: greenplum-db-cb
 Maintainer: Greenplum Release Engineering <release@greenplum.org>
 Section: database
 Build-Depends: debhelper (>= 9),
@@ -45,7 +45,7 @@ Build-Depends: debhelper (>= 9),
     libsystemd-dev,
     pkg-config
 
-Package: cloudberry-db-1
+Package: greenplum-db-cb
 Architecture: amd64
 Depends: curl,
     cgroup-tools,
