@@ -1,4 +1,4 @@
-Source: greenplum-db-7
+Source: cloudberry-db-1
 Maintainer: Greenplum Release Engineering <release@greenplum.org>
 Section: database
 Build-Depends: debhelper (>= 9),
@@ -45,7 +45,7 @@ Build-Depends: debhelper (>= 9),
     libsystemd-dev,
     pkg-config
 
-Package: greenplum-db-7
+Package: cloudberry-db-1
 Architecture: amd64
 Depends: curl,
     cgroup-tools,
@@ -91,14 +91,9 @@ Depends: curl,
     libmdblocales1 (>= 25~),
     mdb-locales (>= 25~),
     libxerces-c3.2
-Description: Greenplum Database OSS
-  Greenplum Database is an advanced, fully featured, open source data platform.
-  It provides powerful and rapid analytics on petabyte scale data volumes.
-  Uniquely geared toward big data analytics, Greenplum Database is powered by
-  the world's most advanced cost-based query optimizer delivering high
-  analytical query performance on large data volumes.The Greenplum Database®
-  project is released under the Apache 2 license.  We want to thank all our
-  current community contributors and all who are interested in new
-  contributions.  For the Greenplum Database community, no contribution is too
-  small, we encourage all types of contributions.
+Description: Cloudberry Database
+  Cloudberry Database (CBDB or CloudberryDB for short) is created by a bunch 
+  of original Greenplum Database developers and ASF committers. 
+  We aim to bring modern computing capabilities to the traditional distributed
+  MPP database to support Analytics and AI/ML workloads in one platform.
 
