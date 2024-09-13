@@ -27,7 +27,8 @@ override_dh_auto_configure:
           --enable-gpcloud \
           --with-zstd \
           --with-systemd \
-          --with-pythonsrc-ext
+          --with-pythonsrc-ext \
+          --disable-pxf
 
 override_dh_auto_build-arch: 
 	MAKELEVEL=0 $(MAKE) -j8
