@@ -3,9 +3,9 @@
 set -e
 
 GPADMIN=gpadmin
-PXFVER=6
+PXFVER=1
 PXFHOME=/opt/greenplum-pxf-${PXFVER}
-GPHOME=/opt/greenplum-db-6
+GPHOME=/opt/greenplum-db-cb
 
 chown -R ${GPADMIN}:${GPADMIN} ${PXFHOME}
 chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}
