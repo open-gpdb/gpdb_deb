@@ -1,0 +1,17 @@
+FROM ubuntu:jammy
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo Europe/London > /etc/timezone \
+&& apt-get update -o Acquire::AllowInsecureRepositories=true && apt-get install -y --no-install-recommends --allow-unauthenticated \
+  build-essential libssl-dev gnupg devscripts \
+  openssl libssl-dev debhelper debootstrap \
+  make equivs bison ca-certificates-java ca-certificates \
+  cmake curl cgroup-tools flex gcc-11 g++-11 g++-11-multilib \
+  git krb5-multidev libapr1-dev libbz2-dev libcurl4-gnutls-dev \
+  libevent-dev libkrb5-dev libldap2-dev libperl-dev libreadline6-dev \
+  libssl-dev libxml2-dev libyaml-dev libzstd-dev libaprutil1-dev \
+  libpam0g-dev libpam0g libcgroup1 libyaml-0-2 libldap-2.5-0 libssl3 \
+  ninja-build python-setuptools quilt unzip wget zlib1g-dev libuv1-dev \
+  libgpgme-dev libgpgme11 python2.7 python2.7-dev
+
