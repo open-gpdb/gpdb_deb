@@ -33,7 +33,10 @@ libgpgme-dev libgpgme11 \
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && git clone https://github.com/boundary/sigar.git -b master \
 && wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz \
-&& mv greenplum-build/debian ./ && mv greenplum-yandex-patches/gp_patches/6 ./debian/patches
+&& mv greenplum-build/debian ./ 
+
+# TODO: remove this line
+#&& mv greenplum-yandex-patches/gp_patches/6 ./debian/patches
 
 RUN ls -al .
 RUN ls -al gpdb
