@@ -11,7 +11,7 @@ RUN ls -al gpdb
 RUN ls -al gpdb/*
 
 RUN apt-get update -o Acquire::AllowInsecureRepositories=true &&\
-    apt-get install -y --no-install-recommends --allow-unauthenticated libmdblocales1 libmdblocales-dev
+    apt-get install -y --no-install-recommends --allow-unauthenticated
 
 RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo Europe/London > /etc/timezone \
 && sed -i "s/archive.ubuntu.com/mirror.yandex.ru/g" /etc/apt/sources.list \
