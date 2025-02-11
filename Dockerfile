@@ -10,9 +10,7 @@ RUN ls -al .
 RUN ls -al gpdb
 RUN ls -al gpdb/*
 
-RUN echo 'deb http://dist.yandex.ru/mdb-jammy-secure stable/all/' | tee -a /etc/apt/sources.list &&\
-    echo 'deb http://dist.yandex.ru/mdb-jammy-secure stable/amd64/' | tee -a /etc/apt/sources.list &&\
-    apt-get update -o Acquire::AllowInsecureRepositories=true &&\
+RUN apt-get update -o Acquire::AllowInsecureRepositories=true &&\
     apt-get install -y --no-install-recommends --allow-unauthenticated libmdblocales1 libmdblocales-dev
 
 RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo Europe/London > /etc/timezone \
