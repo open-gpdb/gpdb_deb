@@ -67,6 +67,7 @@ override_dh_auto_configure: libsigar xerces311
         --enable-debug \
         --with-system-tzdata=/usr/share/zoneinfo \
         --enable-orafce \
+		--without-mdblocales \
         ${EXTRA_CONFIGURE_FLAGS}
 
 %:
