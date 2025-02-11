@@ -30,7 +30,7 @@ RUN cd gpdb && ln -snf /usr/share/zoneinfo/Europe/London /etc/localtime && echo 
 && apt-get clean && rm -rf /var/lib/apt/lists/* \
 && git clone https://github.com/boundary/sigar.git -b master \
 && wget -c https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-3.1.1.tar.gz -O - | tar -xz \
-&& mv greenplum-build/debian ./ && mv greenplum-yandex-patches/gp_patches/6 ./debian/patches
+&& mv greenplum-build/debian ./
 
 RUN ls -al .
 RUN ls -al gpdb
