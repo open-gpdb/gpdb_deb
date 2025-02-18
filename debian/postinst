@@ -10,9 +10,7 @@ if [ "$1" = configure ]; then
 
   chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}-${GPVER}
 
-  cat << _EOF_ > /etc/ld.so.conf.d/gpdb.conf
-${GPHOME}-${GPVER}/lib/
-_EOF_
+  chmod -R -x+W /opt/greenplum-db-6
 
   /sbin/ldconfig
 fi
