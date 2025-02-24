@@ -10,7 +10,7 @@ if [ "$1" = configure ]; then
 
   chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}-${GPVER}
 
-  chmod -R -x+W ${GPHOME}-${GPVER}
+  chmod ugo-w -R ${GPHOME}-${GPVER}
 
   /sbin/ldconfig
 fi
