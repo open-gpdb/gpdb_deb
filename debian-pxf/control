@@ -1,6 +1,6 @@
-Source: greenplum-pxf-1
+Source: greenplum-pxf-cb
 Section: database
-Maintainer: <kashinav@localhost>
+Maintainer: <ostinru@localhost>
 Build-Depends: debhelper (>=9),
     bison,
     ca-certificates-java,
@@ -44,7 +44,7 @@ Build-Depends: debhelper (>=9),
     wget,
     zlib1g-dev
 
-Package: greenplum-pxf-1
+Package: greenplum-pxf-cb
 Architecture: amd64
 Depends: ca-certificates-java,
   openjdk-11-jdk,
@@ -53,7 +53,7 @@ Depends: ca-certificates-java,
   curl,
   libcurl3-gnutls,
   libcurl4
-Description: Greenplum PXF 6 OSS
+Description: Greenplum PXF 6 OSS for Cloudberry
   The Greenplum Platform Extension Framework (PXF) provides parallel, high
   throughput data access and federated queries across heterogeneous data
   sources via built-in connectors that map a Greenplum Database external

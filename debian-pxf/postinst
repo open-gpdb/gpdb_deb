@@ -2,12 +2,12 @@
 
 set -e
 
-GPADMIN=gpadmin
-PXFVER=1
-PXFHOME=/opt/greenplum-pxf-${PXFVER}
+OWNER=root
+PXFHOME=/opt/greenplum-pxf-cb
 GPHOME=/opt/greenplum-db-cb
 
-chown -R ${GPADMIN}:${GPADMIN} ${PXFHOME}
-chown -R ${GPADMIN}:${GPADMIN} ${GPHOME}
+chown -R ${OWNER}:${OWNER} ${PXFHOME}
+chown    ${OWNER}:${OWNER} ${GPHOME}/lib/postgresql/pxf.so
+chown    ${OWNER}:${OWNER} ${GPHOME}/share/postgresql/extension/pxf*
 
 echo -en '\ntrusted = true' >> ${GPHOME}/share/postgresql/extension/pxf.control
