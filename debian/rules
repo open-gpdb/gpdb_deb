@@ -14,18 +14,19 @@ PACKAGE_GPDB := $(shell cat debian/control | egrep "^Package: " | cut -d " " -f 
 
 IS_GPDB6 := $(shell expr ${GPDB_VERSION} : "\(^6\.[0-9]\+\.[0-9]\+\)")
 IS_GPDB7 := $(shell expr ${GPDB_VERSION} : "\(^7\.[0-9]\+\.[0-9]\+\)")
+EXTRA_CONFIGURE_FLAGS := $(GPDB_EXTRA_CONFIGURE_FLAGS)
 
 .PHONY: gpinstall
 
 ifdef IS_GPDB7
-        EXTRA_CONFIGURE_FLAGS := --with-zstd
+        EXTRA_CONFIGURE_FLAGS := $(EXTRA_CONFIGURE_FLAGS) --with-zstd
 endif
 
 ifdef IS_GPDB6
         # Fix GPDB compilation error due to gcc-7
         export CC := /usr/bin/gcc-11
         export CXX := /usr/bin/g++-11
-        EXTRA_CONFIGURE_FLAGS := --with-zstd
+        EXTRA_CONFIGURE_FLAGS := $(EXTRA_CONFIGURE_FLAGS) --with-zstd
 endif
 
 # This destination should NOT be debian/tmp, where certain packaging info stored and erased via dh_prep
