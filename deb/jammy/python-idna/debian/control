@@ -1,0 +1,17 @@
+Source: python-idna
+Maintainer: Yury Frolov <ein-krebs@yandex-team.ru>
+Section: python
+Build-Depends: 
+    dh-make,
+    python-all-dev,
+    python-all,
+    python-all-dbg,
+    dh-python,
+    dh-sequence-python2,
+    python-setuptools
+
+Package: python-idna
+Architecture: amd64
+Depends: python2
+Description: idna package for Python2 shipped as Debian file
+
