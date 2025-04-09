@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=idna
+
+%:
+	dh $@ --with python2 --buildsystem=pybuild
+
