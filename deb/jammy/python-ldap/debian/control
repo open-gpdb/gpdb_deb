@@ -1,0 +1,20 @@
+Source: python-ldap
+Maintainer: Yury Frolov <ein-krebs@yandex-team.ru>
+Section: python
+Build-Depends: 
+    dh-make,
+    python-all-dev,
+    python-all,
+    python-all-dbg,
+    dh-python,
+    dh-sequence-python2,
+    python-setuptools,
+    libldap2-dev,
+    libsasl2-dev,
+    libssl-dev
+
+Package: python-ldap
+Architecture: amd64
+Depends: python2, python-pyasn1 (>= 0.3.7), python-pyasn1-modules, libc6 (>= 2.14), libldap-2.5-0
+Description: python-ldap package for Python2 shipped as Debian file
+
