@@ -3,7 +3,7 @@
 export PYBUILD_NAME=python-ldap
 
 %:
-	dh $@ --with python2 --buildsystem=pybuild
+	dh $@ --with python2 --buildsystem=pybuild --with quilt
 
 override_dh_auto_test:
         PYBUILD_SYSTEM=custom dh_auto_test
