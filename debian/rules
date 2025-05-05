@@ -31,7 +31,12 @@ override_dh_auto_configure:
           --disable-pxf
 
 override_dh_auto_build-arch: 
-	MAKELEVEL=0 $(MAKE) -j8
+	MAKELEVEL=0 $(MAKE) -j8 && $(MAKE) -C contrib -j8
+
+gpinstall:
+	$(MAKE) install && $(MAKE) -C contrib install
+
+override_dh_auto_install: gpinstall 
 
 override_dh_shlibdeps:
 
