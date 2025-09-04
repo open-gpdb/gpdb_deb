@@ -49,7 +49,6 @@ Architecture: amd64
 Depends: ca-certificates-java,
   openjdk-11-jdk,
   openjdk-11-jre,
-  greenplum-db-cb,
   curl,
   libcurl3-gnutls,
   libcurl4
